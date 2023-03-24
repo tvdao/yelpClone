@@ -64,6 +64,22 @@ app.get("/api/v1/restaurants/:city/:id", async (req, res) => {
     }
 });
 
+// Get cities
+app.get("/api/v1/cities", async (req, res) => {
+    try {
+        const results = await db.query("select * from cities");
+        res.status(200).json({
+            status: "success",
+            results: results.rows.length,
+            data: {
+                restaurant: results.rows,
+            }
+        })
+    } catch (err) {
+
+    }
+});
+
 // Create a restaurant
 app.post("/api/v1/restaurants", async (req, res) => {
     try {
