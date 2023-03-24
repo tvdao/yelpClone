@@ -1,11 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import RestaurantFinder from '../apis/RestaurantFinder';
 
 const styles = {
     cardImage: {
@@ -17,6 +16,19 @@ const styles = {
 }
 
 const RestaurantList = () => {
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await RestaurantFinder.get("/");
+                console.log(response);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+        fetchData();
+    }, []);
+    
     return (
         <Container>
             <Card style={styles.card} className="border-0 mt-3">
