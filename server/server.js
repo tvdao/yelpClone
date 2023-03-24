@@ -1,11 +1,13 @@
 require("dotenv").config();
 const express = require("express")
 const db = require("./db/index.js");
+const cors = require("cors");
 
 const app = express()
 
 // Middleware
 
+app.use(cors());
 app.use(express.json())
 
 // Route Handlers
@@ -14,8 +16,7 @@ app.use(express.json())
 // http://localhost:4000/api/v1/restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM restaurants");
-        console.log(results);
+        const results = await db.query("SELECT * FROM restaurants LIMIT 20;");
         res.status(200).json({
             status: "success",
             results: results.rows.length,
@@ -28,8 +29,25 @@ app.get("/api/v1/restaurants", async (req, res) => {
     }
 });
 
+// Get all restaurants by city
+app.get("/api/v1/restaurants/:city", async (req, res) => {
+    try {
+        const city = req.params.city;
+        const results = await db.query("SELECT * FROM restaurants WHERE city = $1", [city]);
+        res.status(200).json({
+            status: 'success',
+            results: results.rows.length,
+            data: {
+                restaurants: results.rows,
+            }
+        })
+    } catch(err) {
+        console.log(err);
+    }
+});
+
 // Get a restaurant
-app.get("/api/v1/restaurants/:id", async (req, res) => {
+app.get("/api/v1/restaurants/:city/:id", async (req, res) => {
     try {
         const id = req.params.id;
         // parametrized query
