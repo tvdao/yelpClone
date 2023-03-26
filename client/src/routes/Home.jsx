@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '../components/Header'
-import AddRestaurant from '../components/AddRestaurant'
+import SearchRestaurant from '../components/SearchRestaurant'
 import RestaurantList from "../components/RestaurantList"
 
 const Home = () => {
     return (
         <div>
             <Header />
-            <AddRestaurant />
+            <SearchRestaurant />
             <RestaurantList />
         </div>
     )
